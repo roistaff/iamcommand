@@ -17,7 +17,7 @@ if [ "$output" = "null" ]; then
 	echo $(cat $HOME/answer.json | jq '.error.message')
 else
 	echo $output
-	output=$(echo $output | sed 's/^.*"\(.*\)".*$/\1/' )
+##	output=$(echo $output | sed 's/^.*"\(.*\)".*$/\1/' )
 	echo $output
 	command=$(echo $output | rev |  cut -d '$' -f 1 | cut -d '`' -f 2 | rev)
 	echo $command
