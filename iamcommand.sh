@@ -12,7 +12,7 @@ output=$(curl -X POST "https://api.groq.com/openai/v1/chat/completions" \
   -H "Authorization: Bearer $GROQ_API_KEY" \
   -s \
   -H "Content-Type: application/json" \
-  -d @$HOME/chat.json  > $HOME/answer.json && cat answer.json |  jq '.choices[0].message.content')
+  -d @$HOME/chat.json > $HOME/answer.json && cat answer.json |  jq '.choices[0].message.content')
 if [ "$output" = "null" ]; then
 	echo $(cat answer.json | jq '.error.message')
 else
