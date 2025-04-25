@@ -1,8 +1,7 @@
 #!/bin/bash
 ESC=$(printf '\033')
 echo -n "${ESC}[33mTo computer:${ESC}[m"
-read prompt
-prompt=$(echo $prompt | sed -e "s/\"/\'/g")
+prompt=$(gum input | sed -e "s/\"/\'/g")
 json=$(cat << EOS
 {"messages": [{"role":"system","content":"Tell me the command to do it in terminal. output must be such '$ command' ,and enclose by backticks."},{"role": "user", "content":"{$prompt}"}], "model": "llama3-70b-8192"}
 EOS
@@ -16,13 +15,10 @@ output=$(curl -X POST "https://api.groq.com/openai/v1/chat/completions" \
 if [ "$output" = "null" ]; then
 	echo $(cat $HOME/answer.json | jq '.error.message')
 else
-	echo $output
 ##	output=$(echo $output | sed 's/^.*"\(.*\)".*$/\1/' )
-	echo $output
 	command=$(echo $output | rev |  cut -d '$' -f 1 | cut -d '`' -f 2 | rev)
-	echo $command
-	read -p "Run this command? [Y/n]" yeah
-	if [ $yeah = "Y" ] || [ $yeah = "y" ]; then
+	gum confirm "Run ${command}?"
+	if [ $? = "0" ] ; then
 		echo $command > $HOME/command.sh
 		$HOME/command.sh
 	else
