@@ -16,7 +16,7 @@ else
 	command=$output
 	gum confirm "Run ${command}?"
 	if [ $? = "0" ] ; then
-		eval "$command"
+		eval "${command}"
 	else
 		echo "Failed.Try again."
 	fi
