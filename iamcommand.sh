@@ -13,7 +13,8 @@ if [ "$output" = "null" ]; then
 else
 ##	output=$(echo $output | sed 's/^.*"\(.*\)".*$/\1/' )
 	#command=$(echo $output | rev |  cut -d '$' -f 1 | cut -d '`' -f 2 | rev)
-	command=$output
+	command=$( echo  "$output" | sed -E 's/^"//; s/"$//')
+	echo $output
 	gum confirm "Run ${command}?"
 	if [ $? = "0" ] ; then
 		eval "${command}"
