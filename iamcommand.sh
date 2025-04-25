@@ -19,8 +19,7 @@ else
 	command=$(echo $output | rev |  cut -d '$' -f 1 | cut -d '`' -f 2 | rev)
 	gum confirm "Run ${command}?"
 	if [ $? = "0" ] ; then
-		echo $command > $HOME/command.sh
-		$HOME/command.sh
+		eval "$command"
 	else
 		echo "Failed.Try again."
 	fi
